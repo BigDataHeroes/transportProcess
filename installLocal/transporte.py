@@ -10,6 +10,7 @@ Original file is located at
 """
 
 import pandas as pd
+from hdfs3 import HDFileSystem
 
 import sys
 
@@ -24,12 +25,13 @@ baseMadridG=sys.argv[4]
 baseBarriosG=sys.argv[5]
 ouPathAgg=sys.argv[6]
 
-
-
-metro = pd.read_csv(inputMetro)
+hdfs = HDFileSystem(host='sandbox-hdp.hortonworks.com', port=8020)
+with hdfs.open(inputMetro) as f:
+    metro = pd.read_csv(f)
 metro['TIPOTRANSPORTE'] = 'Metro'
 
-autobus = pd.read_csv(inputEMT)
+with hdfs.open(inputEMT) as f:
+    autobus = pd.read_csv(f)
 autobus['TIPOTRANSPORTE'] = 'Autobus'
 
 transporte = pd.concat([metro, autobus], ignore_index=True)
@@ -49,7 +51,7 @@ import json
 import numpy as np
 from shapely.geometry import shape, Point
 
-with open(baseMadridG) as f:
+with hdfs.open(baseMadridG) as f:
     js = json.load(f)
     
 for index, row in transporte.iterrows():
@@ -64,7 +66,7 @@ for index, row in transporte.iterrows():
     if not encontrado:
       transporte.loc[index, 'CODIGOPOSTAL'] = np.nan
 
-with open(baseBarriosG) as f:
+with hdfs.open(baseBarriosG) as f:
     js = json.load(f)
 for index, row in transporte.iterrows():
     point = Point(row['LONGITUD'], row['LATITUD'])
@@ -95,11 +97,12 @@ transporte.loc[:, 'DENOMINACION'] = transporte.DENOMINACION.replace("\'", "", re
 
 """## Guardar datos limpios"""
 
-transporte.to_csv(path_or_buf=ouPath, sep=",")
+with hdfs.open(ouPath) as f:
+    transporte.to_csv(f, sep=",")
 
 """## Agregacion de datos"""
 
-datos_limpios = pd.read_csv(ouPath)
+datos_limpios = transporte
 
 datos_limpios.info()
 
@@ -126,5 +129,5 @@ transporte_agregado = transporte_agregado.rename(columns={
 
 
 """## Guardar datos agregados"""
-
-transporte_agregado.to_csv(path_or_buf=ouPathAgg, sep=",")
+with hdfs.open(baseBarriosG) as f:
+    transporte_agregado.to_csv(f, sep=",")

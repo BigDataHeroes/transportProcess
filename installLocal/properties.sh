@@ -1,4 +1,4 @@
-export scriptHome=/home/pablo/EntornosTrabajo/KeepCodingFinalProject/installProcess/transportProcess
+export scriptHome=/user/raj_ops/installProcessDocker/transportProcess
 export inputMetro=$scriptHome/data/estaciones_metro.csv
 export inputEMT=$scriptHome/data/estaciones_autobus_emt.csv
 export ouPath=$scriptHome/data/transporte.csv
