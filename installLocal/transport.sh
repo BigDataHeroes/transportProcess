@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source activate keepcodingFinalProject
 source properties.sh
 
-python transporte.py $inputMetro $inputEMT $ouPath $baseMadridG $baseBarriosG $ouPathAgg
+python3.7 transporte.py $inputMetro $inputEMT $ouPath $baseMadridG $baseBarriosG $ouPathAgg

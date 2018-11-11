@@ -14,9 +14,6 @@ from hdfs3 import HDFileSystem
 
 import sys
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
 
 inputMetro=sys.argv[1]
 inputEMT=sys.argv[2]
@@ -25,7 +22,7 @@ baseMadridG=sys.argv[4]
 baseBarriosG=sys.argv[5]
 ouPathAgg=sys.argv[6]
 
-hdfs = HDFileSystem(host='sandbox-hdp.hortonworks.com', port=8020)
+hdfs = HDFileSystem(host='bdhKC', port=9000)
 with hdfs.open(inputMetro) as f:
     metro = pd.read_csv(f)
 metro['TIPOTRANSPORTE'] = 'Metro'
@@ -97,7 +94,7 @@ transporte.loc[:, 'DENOMINACION'] = transporte.DENOMINACION.replace("\'", "", re
 
 """## Guardar datos limpios"""
 
-with hdfs.open(ouPath) as f:
+with hdfs.open(ouPath,'wb') as f:
     transporte.to_csv(f, sep=",")
 
 """## Agregacion de datos"""
@@ -129,5 +126,5 @@ transporte_agregado = transporte_agregado.rename(columns={
 
 
 """## Guardar datos agregados"""
-with hdfs.open(baseBarriosG) as f:
+with hdfs.open(baseBarriosG,'wb') as f:
     transporte_agregado.to_csv(f, sep=",")
