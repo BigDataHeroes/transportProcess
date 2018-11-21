@@ -1,6 +1,6 @@
-export inputMetro=$scriptHome/data/transportProcess/estaciones_metro.csv
-export inputEMT=$scriptHome/data/transportProcess/estaciones_autobus_emt.csv
-export ouPath=$scriptHome/data/transportProcess/transporte.csv
-export baseMadridG=$scriptHome/baseData/transportProcess/MADRID.geojson
-export baseBarriosG=$scriptHome/baseData/transportProcess/Barrios.geojson
-export ouPathAgg=$scriptHome/data/transportProcess/transporte_agregado.csv
+export inputMetro=/data/transportProcess/estaciones_metro.csv
+export inputEMT=/data/transportProcess/estaciones_autobus_emt.csv
+export ouPath=/data/transportProcess/transporte.csv
+export baseMadridG=/baseData/transportProcess/MADRID.geojson
+export baseBarriosG=/baseData/transportProcess/Barrios.geojson
+export ouPathAgg=/data/transportProcess/transporte_agregado.csv
